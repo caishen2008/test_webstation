@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>均值极差卡 X-bar R Control Chart </title>
+  <style>
+    @media (max-width: 767px) {
+      .element {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    /*.container {*/
+    /*    display: flex;*/
+    /*    justify-content: center;!* 使用水平居中对齐 *!*/
+    /*    align-items: center;  !* 使用垂直交叉轴对齐 *!*/
+    /*}*/
+       /*与备案icon设置冲突*/
+    /*img {*/
+    /*  width: 50%;*/
+    /*  height: auto;*/
+    /*}*/
+
+    table {
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 5px;
+      text-align: center;
+    }
+
+    th {
+      background-color: lightgray;
+    }
+
+    /*button {*/
+    /*    font-size: 16px;*/
+    /*    padding: 10px 20px;*/
+
+    /*}*/
+
+    .button-container {
+      display: flex; /* 使用flex布局 */
+      justify-content: center; /* 水平居中 */
+      margin-top: 20px; /* 在上方留出20px的边距 */
+    }
+
+    .button-container button {
+      padding: 10px 20px; /* 添加内边距 */
+      font-size: 16px; /* 设置字体大小 */
+      background-color: #007bff; /* 设置背景颜色 */
+      color: #fff; /* 设置文本颜色 */
+      border: none; /* 去掉边框 */
+      border-radius: 4px; /* 添加圆角 */
+      cursor: pointer; /* 设置鼠标悬停样式 */
+    }
+
+    .button-container2 {
+      display: flex; /* 使用flex布局 */
+      justify-content: center; /* 水平居中 */
+      margin-top: 20px; /* 在上方留出20px的边距 */
+    }
+
+    .button-container2 button {
+      padding: 10px 20px; /* 添加内边距 */
+      font-size: 16px; /* 设置字体大小 */
+      background-color: #007bff; /* 设置背景颜色 */
+      color: #fff; /* 设置文本颜色 */
+      border: none; /* 去掉边框 */
+      border-radius: 4px; /* 添加圆角 */
+      cursor: pointer; /* 设置鼠标悬停样式 */
+      margin: 0 100px; /* 表格之间留10px的空隙 */
+      /*border: 1px solid black; !* 添加表格边框 *!*/
+    }
+
+    .table-container {
+      display: flex; /* 使用flex布局 */
+      justify-content: center; /* 水平居中 */
+      align-items: center; /* 垂直居中 */
+      width: 100%; /* 宽度100% */
+      margin: 20px 0; /* 上下留20px的边距 */
+    }
+
+    .table-container table {
+      margin: 0 10px; /* 表格之间留10px的空隙 */
+      border: 1px solid black; /* 添加表格边框 */
+    }
+
+  </style>
+</head>
+<body>
+<div class="table-container">
+  <table>
+    <caption>内径表</caption>
+    <thead>
+    <tr>
+      <th>编号</th>
+      <th>随机数</th>
+    </tr>
+    </thead>
+    <tbody id="table1-body"></tbody>
+    <tfoot>
+    <tr>
+      <th>总和:</th>
+      <td id="table1-sum"></td>
+    </tr>
+    <tr>
+      <th>平均值:</th>
+      <td id="table1-avg"></td>
+    </tr>
+    <tr>
+      <th>极差:</th>
+      <td id="table1-range"></td>
+    </tr>
+    </tfoot>
+  </table>
+  <table>
+    <!--        <caption>0.92表</caption>-->
+    <caption>内径表</caption>
+    <!--  <thead>-->
+    <!--  <tr>-->
+    <!--    <th>随机数</th>-->
+    <!--  </tr>-->
+    <!--  </thead>-->
+    <thead>
+    <tr>
+      <th>编号</th>
+      <th>随机数</th>
+    </tr>
+    </thead>
+    <tbody id="table2-body"></tbody>
+    <tfoot>
+    <tr>
+      <th>总和:</th>
+      <td id="table2-sum"></td>
+    <tr>
+      <th>平均值:</th>
+      <td id="table2-avg"></td>
+    <tr>
+      <th>极差:</th>
+      <td id="table2-range"></td>
+    </tr>
+    </tfoot>
+  </table>
+
+  <table>
+    <!--        <caption>1.32表</caption>-->
+    <caption>内径表</caption>
+    <!--  <thead>-->
+    <!--  <tr>-->
+    <!--    <th>随机数</th>-->
+    <!--  </tr>-->
+    <!--  </thead>-->
+    <thead>
+    <tr>
+      <th>编号</th>
+      <th>随机数</th>
+    </tr>
+    </thead>
+    <tbody id="table3-body"></tbody>
+    <tfoot>
+    <tr>
+      <th>总和:</th>
+      <td id="table3-sum"></td>
+    <tr>
+      <th>平均值:</th>
+      <td id="table3-avg"></td>
+    <tr>
+      <th>极差:</th>
+      <td id="table3-range"></td>
+    </tr>
+    </tfoot>
+  </table>
+</div>
+<div class="button-container">
+  <button onclick="generateTables()">刷新</button>
+</div>
+<div class="button-container2">
+<!--  <a href="abc_92.html">0.92表</a>-->
+<!--  <a href="abc_132.html">1.32表</a>-->
+  <button onclick="location.href='abc_92.html'">0.92表</button>
+  <button onclick="location.href='abc_132.html'">1.32表</button>
+</div>
+<span class="slide" rel="noreferrer" style="position: fixed; left: 0; bottom: 0; width: 100%; text-align: center;">
+  		 	<div style="width:300px;margin:0 auto; padding:0px 0;">
+<!--		 		<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011502011860" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="http://linlifa.com/img/beian_icon.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备 32011502011860号</p></a>-->
+		 	</div>
+    <!--<a href="https://beian.miit.gov.cn/" target="_blank">备案/许可证编号：苏ICP备2023016135号 </a>-->
+<!--  <a target="_blank" href="https://beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">ICP备案/许可证编号：苏ICP备2023016135号 </p></a>-->
+  <br>Copyright © 1994<script>new Date().getFullYear() > 2013 && document.write("-" + new Date().getFullYear());</script>  LINLIFA.COM All Rights Reserved.<span>&nbsp;&nbsp;版权所有 </span></span>
+<script>
+  function generateTables() {
+    // 生成第一张表
+    var table1Body = document.getElementById("table1-body");
+    table1Body.innerHTML = "";
+    var data1 = [];
+    for (var i = 0; i < 5; i++) {
+      //第一张表
+      var num = parseFloat((Math.random() * 0.06 + 2.37).toFixed(3));
+      //第二张表
+      // var num = parseFloat((Math.random() * 0.012 + 0.041).toFixed(4));
+      //第三张表
+      // var num = parseFloat((Math.random() * 0.012 + 0.031).toFixed(4));
+      data1.push(num);
+      var row = document.createElement("tr");
+      //随机数
+      var cell = document.createElement("td");
+      //编号名称
+      var number = document.createElement("td");
+      cell.textContent = num;
+      number.textContent = i + 1;
+      row.appendChild(number);
+      row.appendChild(cell);
+      table1Body.appendChild(row);
+    }
+    var sum1 = data1.reduce((a, b) => a + b, 0).toFixed(4);
+    var avg1 = (sum1 / data1.length).toFixed(4);
+    var range1 = (Math.max(...data1) - Math.min(...data1)).toFixed(4);
+    document.getElementById("table1-sum").textContent = sum1;
+    document.getElementById("table1-avg").textContent = avg1;
+    document.getElementById("table1-range").textContent = range1;
+
+    // 生成第二张表
+    var table3Body = document.getElementById("table2-body");
+    table3Body.innerHTML = "";
+    var data2 = [];
+    for (var i = 0; i < 5; i++) {
+      //第一张表
+      var num = parseFloat((Math.random() * 0.06 + 2.37).toFixed(3));
+      //第二张表
+      // var num = parseFloat((Math.random() * 0.012 + 0.041).toFixed(4));
+      //第三张表
+      // var num = parseFloat((Math.random() * 0.012 + 0.031).toFixed(4));
+      data2.push(num);
+      // var row = document.createElement("tr");
+      // var cell = document.createElement("td");
+      // cell.textContent = num;
+      var row = document.createElement("tr");
+      //随机数
+      var cell = document.createElement("td");
+      //编号名称
+      var number = document.createElement("td");
+      cell.textContent = num;
+      number.textContent = i + 1;
+      row.appendChild(number);
+      row.appendChild(cell);
+      table3Body.appendChild(row);
+    }
+    var sum2 = data2.reduce((a, b) => a + b, 0).toFixed(4);
+    var avg2 = (sum2 / data2.length).toFixed(4);
+    var range2 = (Math.max(...data2) - Math.min(...data2)).toFixed(4);
+    document.getElementById("table2-sum").textContent = sum2;
+    document.getElementById("table2-avg").textContent = avg2;
+    document.getElementById("table2-range").textContent = range2;
+
+    // 生成第三张表
+    var table2Body = document.getElementById("table3-body");
+    table2Body.innerHTML = "";
+    var data3 = [];
+    for (var i = 0; i < 5; i++) {
+      //第一张表
+      var num = parseFloat((Math.random() * 0.06 + 2.37).toFixed(3));
+      //第二张表
+      // var num = parseFloat((Math.random() * 0.012 + 0.041).toFixed(4));
+      //第三张表
+      // var num = parseFloat((Math.random() * 0.012 + 0.031).toFixed(4));
+      data3.push(num);
+      // var row = document.createElement("tr");
+      // var cell = document.createElement("td");
+      // cell.textContent = num;
+      var row = document.createElement("tr");
+      //随机数
+      var cell = document.createElement("td");
+      //编号名称
+      var number = document.createElement("td");
+      cell.textContent = num;
+      number.textContent = i + 1;
+      row.appendChild(number);
+      row.appendChild(cell);
+      table2Body.appendChild(row);
+    }
+    var sum3 = data3.reduce((a, b) => a + b, 0).toFixed(4);
+    var avg3 = (sum3 / data3.length).toFixed(4);
+    var range3 = (Math.max(...data3) - Math.min(...data3)).toFixed(4);
+    document.getElementById("table3-sum").textContent = sum3;
+    document.getElementById("table3-avg").textContent = avg3;
+    document.getElementById("table3-range").textContent = range3;
+  }
+
+  generateTables();
+</script>
+</body>
+</html>
