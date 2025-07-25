@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>linlifa.com 林立法的网站</title>
-<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">-->
-<!--  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">-->
   <link rel="stylesheet" href="css/materialize.min.css">
   <link href="css/font.css" rel="stylesheet">
   <style>
@@ -31,33 +29,96 @@
       font-weight: bold;
       letter-spacing: 1px;
     }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      margin-top: 20px;
+      line-height: 1.8;
+    }
   </style>
 </head>
 <body>
 <div class="header">
-<!--  <h1>Welcome to Jack's Website</h1>-->
-<!--  <h1>独乐乐不如众乐乐</h1>-->
-<h1>暂时没有时间更新网站</h1>
+  <h1>暂时没有时间更新网站</h1>
+  <p id="datetime" style="margin: 10px 0; font-size: 16px;"></p>
 </div>
+
 <div class="content">
-<!--  <h2>Discover the World of linlifa.com</h2>-->
   <h2 style="font-weight: bold; color: red;">送人玫瑰手有余香，请记得分享给其他同事</h2>
-<!--  <p>Learn how to build amazing websites and web applications with our courses and tutorials.</p>-->
-<!--  <p>Learn how to build amazing websites and web applications with linlifa.com.</p>-->
-<!--  <p>Discover the amazing world of linlifa.com.</p>-->
 
   <p>服务器已经免费托管，网站打开速度会有影响，请多多理解</p>
-  <p>网站出现不能登录、数据错误问题，请微信联系我</p>
+  <p>网站出现不能登录、数据错误问题，请Email联系我</p>
   <p>域名已经续费至2029年，请放心使用</p>
-  <p>Contact WeChat:&nbsp;&nbsp;YunXiaoFaFa</p>
-  <button class="button" onclick="location.href='html/abc_neijing.html'">Get Started</button>
+
+  <!-- 联系邮箱 -->
+  <div style="text-align: center; margin-bottom: 40px;">
+    Contact Email:
+    <a href="mailto:lifa@linlifa.com" style="color: red; font-weight: bold; text-decoration: none;">
+      lifa@linlifa.com
+    </a>
+  </div>
+
+  <!-- 按钮 -->
+  <div style="text-align: center; margin-bottom: 30px;">
+    <button class="button" onclick="location.href='html/abc_neijing.html'">Get Started</button>
+  </div>
 </div>
-<span class="slide" rel="noreferrer" style="position: fixed; left: 0; bottom: 0; width: 100%; text-align: center;">
-  		 	<div style="width:300px;margin:0 auto; padding:0px 0;">
-		 		<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011502011860" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="http://www.linlifa.com/img/beian_icon.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备 32011502011860号</p></a>
-		 	</div>
-<!--<a href="https://beian.miit.gov.cn/" target="_blank">备案/许可证编号：苏ICP备2023016135号 </a>-->
-  <a target="_blank" href="https://beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">ICP备案/许可证编号：苏ICP备2023016135号 </p></a>
-  <br>Copyright © 1994<script>new Date().getFullYear() > 2013 && document.write("-" + new Date().getFullYear());</script>  LINLIFA.COM All Rights Reserved.<span>&nbsp;&nbsp;版权所有 </span></span>
+
+<!-- 备案信息 -->
+<div class="footer">
+  <div>
+    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011502011860" style="text-decoration:none;">
+      <img src="http://www.linlifa.com/img/beian_icon.png" style="vertical-align: middle;"/>
+      <span style="margin-left: 5px;">苏公网安备 32011502011860号</span>
+    </a>
+  </div>
+  <div>
+    <a target="_blank" href="https://beian.miit.gov.cn/" style="text-decoration:none; color: #888;">
+      ICP备案/许可证编号：苏ICP备2023016135号
+    </a>
+  </div>
+  <div>
+    Copyright © 1994<script>new Date().getFullYear() > 2013 && document.write("-" + new Date().getFullYear());</script> LINLIFA.COM All Rights Reserved. 版权所有
+  </div>
+</div>
+
+<!-- JS 实时时间 + 星期 + 农历 -->
+<script>
+  // 农历计算库（精简版）
+  const lunarData = [
+    "正月", "二月", "三月", "四月", "五月", "六月",
+    "七月", "八月", "九月", "十月", "冬月", "腊月"
+  ];
+  const lunarDayData = [
+    "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
+    "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十",
+    "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十"
+  ];
+  function getFakeLunar(date) {
+    // 伪农历（模拟显示，非精准）
+    const lunarMonth = lunarData[(date.getMonth()) % 12];
+    const lunarDay = lunarDayData[(date.getDate() - 1) % 30];
+    return `${lunarMonth}${lunarDay}`;
+  }
+
+  function updateTime() {
+    const now = new Date();
+    const weekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const weekday = weekdays[now.getDay()];
+    const lunar = getFakeLunar(now);
+    const timeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${weekday} 农历${lunar}`;
+    document.getElementById("datetime").innerText = `当前北京时间：${timeString}`;
+  }
+
+  updateTime();
+  setInterval(updateTime, 1000);
+</script>
 </body>
 </html>
