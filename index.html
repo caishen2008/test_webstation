@@ -1,24 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>linlifa.com 林立法的网站</title>
   <link rel="stylesheet" href="css/materialize.min.css">
   <link href="css/font.css" rel="stylesheet">
   <style>
-    body {
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: 'Open Sans', sans-serif;
+      background: url('img/index_jpg_001.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
     }
-    .header {
-      background-color: #2196f3;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
+
     .content {
+      flex: 1;
       padding: 20px;
       text-align: center;
+      color: white;
     }
+
+    .time-box {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    .quote {
+      color: red;
+      font-weight: bold;
+      font-size: 4vw;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .button {
       background-color: #2196f3;
       color: white;
@@ -28,31 +49,37 @@
       text-transform: uppercase;
       font-weight: bold;
       letter-spacing: 1px;
+      margin-top: 30px;
     }
+
     .footer {
-      text-align: center;
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
       font-size: 12px;
-      color: #888;
-      margin-top: 20px;
-      line-height: 1.8;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    @media (max-width: 768px) {
+      .quote {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
 <body>
-<div class="header">
-  <h1>暂时没有时间更新网站</h1>
-  <p id="datetime" style="margin: 10px 0; font-size: 16px;"></p>
-</div>
-
 <div class="content">
-  <h2 style="font-weight: bold; color: red;">送人玫瑰手有余香，请记得分享给其他同事</h2>
+  <div class="time-box" id="time-box"></div>
+
+  <h2 class="quote">送人玫瑰手有余香，请记得分享给其他同事</h2>
 
   <p>服务器已经免费托管，网站打开速度会有影响，请多多理解</p>
   <p>网站出现不能登录、数据错误问题，请Email联系我</p>
   <p>域名已经续费至2029年，请放心使用</p>
+  <p style="margin-top: 0; color: yellow; font-weight: bold;">The domain name jpjpp.com is for sale, please contact me by email</p>
 
-  <!-- 联系邮箱 -->
-  <div style="text-align: center; margin-bottom: 40px;">
+  <!-- 邮箱 -->
+  <div style="text-align: center; margin-top: 20px;">
     Contact Email:
     <a href="mailto:lifa@linlifa.com" style="color: red; font-weight: bold; text-decoration: none;">
       lifa@linlifa.com
@@ -60,65 +87,40 @@
   </div>
 
   <!-- 按钮 -->
-  <div style="text-align: center; margin-bottom: 30px;">
+  <div style="text-align: center; margin-top: 40px;">
     <button class="button" onclick="location.href='html/abc_neijing.html'">Get Started</button>
   </div>
 </div>
 
-<!-- 备案信息 -->
+<!-- 备案和版权信息 -->
 <div class="footer">
-  <div>
-    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011502011860" style="text-decoration:none;">
-      <img src="http://www.linlifa.com/img/beian_icon.png" style="vertical-align: middle;"/>
-      <span style="margin-left: 5px;">苏公网安备 32011502011860号</span>
+  <div style="margin-bottom: 5px;">
+    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011502011860" style="text-decoration:none;height:20px;line-height:20px;">
+      <img src="img/beian_icon.png" style="vertical-align: middle;"/>
+      <span style="color:#666666; margin-left: 5px;">苏公网安备 32011502011860号</span>
     </a>
   </div>
   <div>
-    <a target="_blank" href="https://beian.miit.gov.cn/" style="text-decoration:none; color: #888;">
+    <a target="_blank" href="https://beian.miit.gov.cn/" style="text-decoration:none;">
       ICP备案/许可证编号：苏ICP备2023016135号
     </a>
   </div>
   <div>
-    Copyright © 1994<script>new Date().getFullYear() > 2013 && document.write("-" + new Date().getFullYear());</script> LINLIFA.COM All Rights Reserved. 版权所有
+    Copyright © 1994<script>new Date().getFullYear() > 2013 && document.write("-" + new Date().getFullYear());</script> LINLIFA.COM All Rights Reserved 版权所有
   </div>
 </div>
 
-<!-- JS 实时时间 + 星期 + 农历 -->
 <script>
-  // 农历计算库（精简版）
-  const lunarData = [
-    "正月", "二月", "三月", "四月", "五月", "六月",
-    "七月", "八月", "九月", "十月", "冬月", "腊月"
-  ];
-  const lunarDayData = [
-    "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
-    "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十",
-    "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十"
-  ];
-  function getFakeLunar(date) {
-    // 伪农历（模拟显示，非精准）
-    const lunarMonth = lunarData[(date.getMonth()) % 12];
-    const lunarDay = lunarDayData[(date.getDate() - 1) % 30];
-    return `${lunarMonth}${lunarDay}`;
-  }
-
   function updateTime() {
     const now = new Date();
-    const weekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    const weekday = weekdays[now.getDay()];
-    const lunar = getFakeLunar(now);
-    const timeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${weekday} 农历${lunar}`;
-    document.getElementById("datetime").innerText = `当前北京时间：${timeString}`;
+    const days = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false });
+    const dateStr = now.toLocaleDateString('zh-CN');
+    const weekday = days[now.getDay()];
+    document.getElementById('time-box').innerText = `${dateStr} ${weekday} ${timeStr}`;
   }
-
-  updateTime();
   setInterval(updateTime, 1000);
+  updateTime();
 </script>
 </body>
 </html>
